@@ -1,15 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-    @foreach($posts as $post)
+    <article>
+        <h1 class="post-title">
+            {{$post->getTitle()}}
+        </h1>
+        <p>
+            {{$post->getBody()}}
+        </p>
+    </article>
+    <h2>Comments</h2>
+    @foreach($comments as $comment)
         <div class="post-preview">
-            <h3 class="post-title">
-                {{$post->getTitle()}}
-            </h3>
+            <p>
+                {{$comment->getBody()}}
+            </p>
             <p class="post-meta">
-                <a href="{{route('posts.comments', ['id' => $post->getId()])}}">Read more </a>
+                by {{$comment->getName()}} - {{$comment->getEmail()}}
             </p>
         </div>
         <hr/>
     @endforeach
+    {{ $comments->render() }}
 @endsection

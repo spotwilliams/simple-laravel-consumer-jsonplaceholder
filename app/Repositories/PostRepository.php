@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\PostRepository as Contract;
+use App\Entities\Comment;
 use App\Entities\Post;
 use App\Exceptions\EntityNotFoundException;
 use GuzzleHttp\Client;
@@ -19,7 +20,7 @@ class PostRepository extends JsonRepository
         parent::__construct($client);
     }
 
-    public function get(int $id): Post
+    public function find(int $id): Post
     {
         try {
             return new Post(parent::find($id));
@@ -28,8 +29,30 @@ class PostRepository extends JsonRepository
         }
     }
 
+    public function findWith(int $id, string $relation)
+    {
+        try {
+            $post = $this->find($id);
+            foreach (parent::findWith($id, $relation) as $rawComment) {
+                $post->addComment(new Comment($rawComment));
+            }
+
+            return $post;
+        } catch (ClientException $exception) {
+            throw new EntityNotFoundException($this->getEntityName());
+        }
+    }
+
     public function all(): Collection
     {
+        try {
+            return parent::all()
+                ->map(function ($rawPost) {
+                    return new Post($rawPost);
+                });
+        } catch (ClientException $exception) {
+            throw new EntityNotFoundException($this->getEntityName());
+        }
     }
 
     public function paginate(): Paginator

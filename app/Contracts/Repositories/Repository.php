@@ -7,7 +7,9 @@ use Illuminate\Support\Collection;
 
 interface Repository
 {
-    public function get(int $id);
+    public function find(int $id);
+
+    public function findWith(int $id, string $relation);
 
     public function all(): Collection;
 

@@ -4,7 +4,7 @@ namespace App\Entities;
 
 use App\Contracts\Entities\Entity;
 
-class Comments implements Entity
+class Comment implements Entity
 {
     use MakeableEntity;
 

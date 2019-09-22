@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use App\Contracts\Entities\Entity;
+use Illuminate\Support\Collection;
 
 class Post implements Entity
 {
@@ -16,10 +17,13 @@ class Post implements Entity
     private $body;
     /** @var string */
     private $userId;
+    /** @var Collection */
+    private $comments;
 
     public function __construct(array $rawPost)
     {
         $this->make($rawPost);
+        $this->comments = new Collection();
     }
 
     /**
@@ -52,5 +56,18 @@ class Post implements Entity
     public function getUserId(): string
     {
         return $this->userId;
+    }
+
+    public function addComment(Comment $comment)
+    {
+        $this->comments->add($comment);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
     }
 }
