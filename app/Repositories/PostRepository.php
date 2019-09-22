@@ -4,7 +4,9 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\PostRepository as Contract;
 use App\Entities\Post;
+use App\Exceptions\EntityNotFoundException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
@@ -19,12 +21,15 @@ class PostRepository extends JsonRepository
 
     public function get(int $id): Post
     {
-        dd(parent::find($id));
+        try {
+            return new Post(parent::find($id));
+        } catch (ClientException $exception) {
+            throw new EntityNotFoundException($this->getEntityName());
+        }
     }
 
     public function all(): Collection
     {
-        // TODO: Implement all() method.
     }
 
     public function paginate(): Paginator
