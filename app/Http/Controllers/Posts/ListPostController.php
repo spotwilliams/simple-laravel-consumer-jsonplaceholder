@@ -24,6 +24,7 @@ class ListPostController extends Controller
 
     public function __invoke()
     {
+
         $posts = $this->postRepository->all();
 
         $posts = new LengthAwarePaginator(
