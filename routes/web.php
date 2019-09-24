@@ -11,6 +11,8 @@
 |
 */
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Posts\DeletePostController;
 use App\Http\Controllers\Posts\ListCommentsOfPost;
 use App\Http\Controllers\Posts\ListPostController;
 use App\Http\Controllers\Posts\CreatePostController;
@@ -29,7 +31,11 @@ Route::get('email/verify', 'App\Http\Controllers\Auth\VerificationController@sho
 Route::get('email/verify/{id}', 'App\Http\Controllers\Auth\VerificationController@verify')->name('verification.verify');
 Route::get('email/resend', 'App\Http\Controllers\Auth\VerificationController@resend')->name('verification.resend');
 
+Route::get('/', HomeController::class)->name('home');
 
 Route::get('/posts', ListPostController::class)->name('posts.list');
-Route::get('/posts/{id}/comments', ListCommentsOfPost::class)->name('posts.comments');
 Route::post('/posts', CreatePostController::class)->name('posts.create');
+Route::put('/posts/{id}', CreatePostController::class)->name('posts.create');
+Route::delete('/posts/{id}', DeletePostController::class)->name('posts.delete');
+
+Route::get('/posts/{id}/comments', ListCommentsOfPost::class)->name('posts.comments');

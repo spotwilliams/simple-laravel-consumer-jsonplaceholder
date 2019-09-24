@@ -5,13 +5,16 @@ namespace App\Repositories;
 use App\Contracts\Repositories\PostRepository as Contract;
 use App\Entities\Comment;
 use App\Entities\Post;
+use App\Exceptions\CreateEntityException;
+use App\Exceptions\DeleteEntityException;
 use App\Exceptions\EntityNotFoundException;
+use App\Exceptions\UpdateEntityException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
-class PostRepository extends JsonRepository
+class PostRepository
+    extends JsonRepository
     implements Contract
 {
 
@@ -55,24 +58,31 @@ class PostRepository extends JsonRepository
         }
     }
 
-    public function paginate(): Paginator
-    {
-        // TODO: Implement paginate() method.
-    }
-
     public function delete(int $id): bool
     {
-        // TODO: Implement delete() method.
+        try {
+            return parent::delete($id);
+        } catch (\Exception $exception) {
+            throw new DeleteEntityException($this->getEntityName());
+        }
     }
 
     public function update(int $id, $payload)
     {
-        // TODO: Implement update() method.
+        try {
+            return new Post(array_merge($payload, parent::update($id, $payload)));
+        } catch (\Exception $exception) {
+            throw new UpdateEntityException($this->getEntityName());
+        }
     }
 
-    public function create($payload)
+    public function create(array $payload): Post
     {
-        // TODO: Implement create() method.
+        try {
+            return new Post(array_merge($payload, parent::create($payload)));
+        } catch (\Exception $exception) {
+            throw new CreateEntityException($this->getEntityName());
+        }
     }
 
     protected function getEntityName(): string

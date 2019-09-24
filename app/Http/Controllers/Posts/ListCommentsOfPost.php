@@ -6,12 +6,10 @@ use App\Contracts\Repositories\PostRepository;
 use App\Entities\Post;
 use App\Http\Controllers\Controller;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Input;
 
 class ListCommentsOfPost extends Controller
 {
-
     /**
      * @var PostRepository
      */
@@ -20,7 +18,6 @@ class ListCommentsOfPost extends Controller
 
     public function __construct(PostRepository $postRepository)
     {
-        $this->middleware('auth');
         $this->postRepository = $postRepository;
         $this->perPage = 20;
     }

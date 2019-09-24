@@ -4,22 +4,19 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\Repository;
 use GuzzleHttp\Client;
-use Illuminate\Cache\CacheManager;
-use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Collection;
-use Psr\Http\Message\ResponseInterface;
 
-abstract class JsonRepository implements Repository
+abstract class JsonRepository
+    implements Repository
 {
-    /** @var Client  */
+    /** @var Client */
     private $client;
     private $host;
 
     public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->host = config('repository.host');
         $this->host = config('repository.host');
     }
 
@@ -50,27 +47,31 @@ abstract class JsonRepository implements Repository
 
     }
 
-    public function paginate(): Paginator
-    {
-        $entity = $this->getEntityName();
-        $url = "{$this->host}/{$entity}";
-
-        return new \Illuminate\Pagination\Paginator($this->retrieve($url));
-    }
-
     public function delete(int $id): bool
     {
-        // TODO: Implement delete() method.
+        $entity = $this->getEntityName();
+        $url = "{$this->host}/{$entity}/{$id}";
+        $this->client->delete($url);
+
+        return true;
     }
 
     public function update(int $id, $payload)
     {
-        // TODO: Implement update() method.
+        $entity = $this->getEntityName();
+        $url = "{$this->host}/{$entity}/{$id}";
+        $response = $this->client->put($url, $payload);
+
+        return json_decode($response->getBody()->getContents(), true);
     }
 
-    public function create($payload)
+    public function create(array $payload)
     {
-        // TODO: Implement create() method.
+        $entity = $this->getEntityName();
+        $url = "{$this->host}/{$entity}";
+        $response = $this->client->post($url, $payload);
+
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     private function retrieve(string $url)
@@ -78,6 +79,7 @@ abstract class JsonRepository implements Repository
         if (Cache::has($url)) {
             return Cache::get($url);
         }
+
         $response = json_decode($this->client->get($url)->getBody()->getContents(), true);
         Cache::put($url, $response);
 

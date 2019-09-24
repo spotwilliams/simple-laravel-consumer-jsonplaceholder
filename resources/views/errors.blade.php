@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content')
+@section('container')
     <div class="alert alert-danger" role="alert">
         <h4 class="alert-heading">Something happen!</h4>
         <p>There was an error while processing the request.</p>

@@ -18,7 +18,6 @@ class ListPostController extends Controller
 
     public function __construct(PostRepository $postRepository)
     {
-        $this->middleware('auth');
         $this->postRepository = $postRepository;
         $this->perPage = 10;
     }

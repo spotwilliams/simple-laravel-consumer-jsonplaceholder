@@ -11,28 +11,79 @@
 
     <title>{{ config('app.name', 'What a Blog') }}</title>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <!-- Bootstrap core CSS -->
-
-    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom fonts for this template -->
-    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'
-          type='text/css'>
-    <link
-        href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
-        rel='stylesheet' type='text/css'>
-
-    <!-- Custom styles for this template -->
-    <link href="/css/clean-blog.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Custom icon font-->
+    <link rel="stylesheet" href="/css/fontastic.css">
+    <!-- Google fonts - Open Sans-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    <!-- Fancybox-->
+    <link rel="stylesheet" href="/vendor/@fancyapps/fancybox/jquery.fancybox.min.css">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="/css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="/css/custom.css">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="favicon.png">
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+<header class="header">
+    <!-- Main Navbar-->
+    <nav class="navbar navbar-expand-lg">
+        <div class="search-area">
+            <div class="search-area-inner d-flex align-items-center justify-content-center">
+                <div class="close-btn"><i class="icon-close"></i></div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-8">
+                        <form action="#">
+                            <div class="form-group">
+                                <input type="search" name="search" id="search" placeholder="What are you looking for?">
+                                <button type="submit" class="submit"><i class="icon-search-1"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <!-- Navbar Brand -->
+            <div class="navbar-header d-flex align-items-center justify-content-between">
+                <!-- Navbar Brand --><a href="index.html" class="navbar-brand">PlaceHolder Json consumer</a>
+                <!-- Toggle Button-->
+                <button type="button" data-toggle="collapse" data-target="#navbarcollapse"
+                        aria-controls="navbarcollapse" aria-expanded="false" aria-label="Toggle navigation"
+                        class="navbar-toggler"><span></span><span></span><span></span></button>
+            </div>
+            <!-- Navbar Menu -->
+            <div id="navbarcollapse" class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="{{ route('home') }}" class="nav-link active ">Home</a>
+                    </li>
+                    <li class="nav-item"><a href="{{ route('posts.list') }}" class="nav-link ">Blog</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
 <div id="app">
+    <!-- Divider Section-->
+    <section style="background: url(/img/divider-bg.jpg); background-size: cover; background-position: center bottom"
+             class="divider">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                </div>
+            </div>
+        </div>
+    </section>
     {{--        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">--}}
     {{--            <div class="container">--}}
     {{--                <a class="navbar-brand" href="{{ url('/') }}">--}}
@@ -84,70 +135,25 @@
     {{--            </div>--}}
     {{--        </nav>--}}
 
-    <header class="masthead" style="background-image: url('/img/home-bg.jpg')">
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto">
-                    <div class="site-heading">
-                        <h1>What a Blog!</h1>
-                        <span class="subheading">Where the words ends up</span>
+    @yield('container')
+
+    <footer class="main-footer">
+        <div class="copyrights">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-white">PlaceHolder Json consumer</h6> <p>&copy; 2017. All rights reserved. Your great site.</p>
                     </div>
                 </div>
             </div>
         </div>
-    </header>
-
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                @yield('content')
-
-            </div>
-        </div>
-    </div>
+    </footer>
 </div>
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                <ul class="list-inline text-center">
-                    <li class="list-inline-item">
-                        <a href="#">
-                <span class="fa-stack fa-lg">
-                  <i class="fas fa-circle fa-stack-2x"></i>
-                  <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                </span>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">
-                <span class="fa-stack fa-lg">
-                  <i class="fas fa-circle fa-stack-2x"></i>
-                  <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                </span>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">
-                <span class="fa-stack fa-lg">
-                  <i class="fas fa-circle fa-stack-2x"></i>
-                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                </span>
-                        </a>
-                    </li>
-                </ul>
-                <p class="copyright text-muted">Copyright &copy; What a Blog! 2019</p>
-            </div>
-        </div>
-    </div>
-</footer>
-<!-- Bootstrap core JavaScript -->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Custom scripts for this template -->
-<script src="js/clean-blog.min.js"></script>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/popper.js/umd/popper.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/vendor/jquery.cookie/jquery.cookie.js"></script>
+<script src="/vendor/@fancyapps/fancybox/jquery.fancybox.min.js"></script>
+<script src="/js/front.js"></script>
 </body>
 </html>
