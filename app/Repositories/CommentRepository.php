@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Contracts\Repositories\PostRepository as Contract;
+use App\Contracts\Repositories\CommentRepository as Contract;
 use App\Entities\Comment;
 use App\Entities\Post;
 use App\Exceptions\CreateEntityException;
@@ -14,7 +14,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 
-class PostRepository
+class CommentRepository
     extends JsonRepository
     implements Contract
 {
@@ -28,10 +28,21 @@ class PostRepository
         $this->postWrapper = $postWrapper;
     }
 
-    public function find(int $id): Post
+    public function byPost(Post $post): Collection
+    {
+        $entity = $this->getEntityName();
+        $url = "{$this->getHost()}/{$entity}?postId={$post->getId()}";
+
+        return collect($this->retrieve($url))
+            ->map(function ($rawPost) {
+                return new Comment($rawPost);
+            });
+    }
+
+    public function find(int $id)
     {
         try {
-            return new Post(parent::find($id));
+            return new Comment(parent::find($id));
         } catch (ClientException $exception) {
             throw new EntityNotFoundException($this->getEntityName());
         }
@@ -42,7 +53,7 @@ class PostRepository
         try {
             return parent::all()
                 ->map(function ($rawPost) {
-                    return new Post($rawPost);
+                    return new Comment($rawPost);
                 });
         } catch (ClientException $exception) {
             throw new EntityNotFoundException($this->getEntityName());
@@ -61,16 +72,16 @@ class PostRepository
     public function update(int $id, $payload)
     {
         try {
-            return new Post(array_merge($payload, parent::update($id, $payload)));
+            return new Comment(array_merge($payload, parent::update($id, $payload)));
         } catch (\Exception $exception) {
             throw new UpdateEntityException($this->getEntityName());
         }
     }
 
-    public function create(array $payload): Post
+    public function create(array $payload)
     {
         try {
-            return new Post(array_merge($payload, parent::create($payload)));
+            return new Comment(array_merge($payload, parent::create($payload)));
         } catch (\Exception $exception) {
             throw new CreateEntityException($this->getEntityName());
         }
@@ -78,6 +89,6 @@ class PostRepository
 
     protected function getEntityName(): string
     {
-        return 'posts';
+        return 'comments';
     }
 }

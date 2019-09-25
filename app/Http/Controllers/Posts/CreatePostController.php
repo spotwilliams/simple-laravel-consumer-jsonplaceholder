@@ -21,6 +21,8 @@ class CreatePostController extends Controller
         /** @var  $post */
         $post = $this->postRepository->create($request->all());
 
+        session()->flash('success', 'Post created successfully');
+
         return view('posts.view', compact('post'));
     }
 }

@@ -8,8 +8,6 @@ interface Repository
 {
     public function find(int $id);
 
-    public function findWith(int $id, string $relation);
-
     public function all(): Collection;
 
     public function delete(int $id): bool;

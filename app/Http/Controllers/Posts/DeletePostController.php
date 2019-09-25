@@ -19,6 +19,8 @@ class DeletePostController extends Controller
     {
         $this->postRepository->delete($id);
 
+        session()->flash('success', 'Post deleted successfully');
+
         return redirect()->route('posts.list');
     }
 }

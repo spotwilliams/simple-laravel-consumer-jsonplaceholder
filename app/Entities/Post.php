@@ -19,6 +19,8 @@ class Post implements Entity
     private $userId;
     /** @var Collection */
     private $comments;
+    /** @var User */
+    private $user;
 
     public function __construct(array $rawPost)
     {
@@ -58,7 +60,7 @@ class Post implements Entity
         return $this->userId;
     }
 
-    public function addComment(Comment $comment)
+    public function attachComment(Comment $comment)
     {
         $this->comments->add($comment);
     }
@@ -70,4 +72,18 @@ class Post implements Entity
     {
         return $this->comments;
     }
+
+    public function attachUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
 }

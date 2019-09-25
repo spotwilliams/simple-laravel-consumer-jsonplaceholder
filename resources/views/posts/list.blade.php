@@ -14,7 +14,7 @@
                         <div class="category"><a href="#"></a></div>
                     </div>
                     <h3 class="h4">{{$post->getTitle()}}</h3>
-                    <a href="{{route('posts.comments', ['id' => $post->getId()])}}">
+                    <a href="{{route('posts.view', ['id' => $post->getId()])}}">
                         <p class="text-muted">Click to read more.</p>
                     </a>
                 </div>

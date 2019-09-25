@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\Repository;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Collection;
 
 abstract class JsonRepository
@@ -26,14 +25,6 @@ abstract class JsonRepository
     {
         $entity = $this->getEntityName();
         $url = "{$this->host}/{$entity}/{$id}";
-
-        return $this->retrieve($url);
-    }
-
-    public function findWith(int $id, string $relation)
-    {
-        $entity = $this->getEntityName();
-        $url = "{$this->host}/{$entity}/{$id}/{$relation}";
 
         return $this->retrieve($url);
     }
@@ -74,15 +65,15 @@ abstract class JsonRepository
         return json_decode($response->getBody()->getContents(), true);
     }
 
-    private function retrieve(string $url)
+    protected function retrieve(string $url)
     {
-        if (Cache::has($url)) {
-            return Cache::get($url);
-        }
-
         $response = json_decode($this->client->get($url)->getBody()->getContents(), true);
-        Cache::put($url, $response);
 
         return $response;
+    }
+
+    protected function getHost()
+    {
+        return $this->host;
     }
 }

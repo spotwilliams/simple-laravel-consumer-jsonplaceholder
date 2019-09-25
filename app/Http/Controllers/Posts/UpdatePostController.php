@@ -20,7 +20,7 @@ class UpdatePostController extends Controller
     {
         /** @var  $post */
         $post = $this->postRepository->update($id, $request->all());
-
+        session()->flash('success', 'Post updated successfully');
         return view('posts.view', compact('post'));
     }
 }
