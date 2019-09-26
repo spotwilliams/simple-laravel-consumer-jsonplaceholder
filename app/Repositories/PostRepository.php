@@ -3,13 +3,11 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\PostRepository as Contract;
-use App\Entities\Comment;
 use App\Entities\Post;
 use App\Exceptions\CreateEntityException;
 use App\Exceptions\DeleteEntityException;
 use App\Exceptions\EntityNotFoundException;
 use App\Exceptions\UpdateEntityException;
-use App\Wrappers\PostWrapper;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
@@ -19,13 +17,9 @@ class PostRepository
     implements Contract
 {
 
-    /** @var PostWrapper */
-    private $postWrapper;
-
-    public function __construct(Client $client, PostWrapper $postWrapper)
+    public function __construct(Client $client)
     {
         parent::__construct($client);
-        $this->postWrapper = $postWrapper;
     }
 
     public function find(int $id): Post

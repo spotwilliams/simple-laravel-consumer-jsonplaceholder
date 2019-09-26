@@ -12,12 +12,8 @@
 */
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Posts\DeletePostController;
-use App\Http\Controllers\Posts\ViewPostController;
-use App\Http\Controllers\Posts\ListPostController;
-use App\Http\Controllers\Posts\CreatePostController;
-use App\Http\Controllers\Posts\UpdatePostController;
-use App\Http\Controllers\Comments\CreateCommentController;
+use App\Http\Controllers\Posts;
+use App\Http\Controllers\Comments;
 use Illuminate\Support\Facades\Route;
 
 Route::get('login', 'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');
@@ -35,10 +31,11 @@ Route::get('email/resend', 'App\Http\Controllers\Auth\VerificationController@res
 
 Route::get('/', HomeController::class)->name('home');
 
-Route::get('/posts', ListPostController::class)->name('posts.list');
-Route::post('/posts', CreatePostController::class)->name('posts.create');
-Route::put('/posts/{id}', UpdatePostController::class)->name('posts.update');
-Route::delete('/posts/{id}', DeletePostController::class)->name('posts.delete');
-Route::get('/posts/{id}', ViewPostController::class)->name('posts.view');
+Route::get('/posts', Posts\ListPostController::class)->name('posts.list');
+Route::post('/posts', Posts\CreatePostController::class)->name('posts.create');
+Route::put('/posts/{id}', Posts\UpdatePostController::class)->name('posts.update.index');
+Route::put('/posts/{id}', Posts\UpdatePostController::class)->name('posts.update');
+Route::delete('/posts/{id}', Posts\DeletePostController::class)->name('posts.delete');
+Route::get('/posts/{id}', Posts\ViewPostController::class)->name('posts.view');
 
-Route::post('/comments', CreateCommentController::class)->name('comments.create');
+Route::post('/comments', Comments\CreateCommentController::class)->name('comments.create');

@@ -9,7 +9,6 @@ use App\Exceptions\CreateEntityException;
 use App\Exceptions\DeleteEntityException;
 use App\Exceptions\EntityNotFoundException;
 use App\Exceptions\UpdateEntityException;
-use App\Wrappers\PostWrapper;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
@@ -18,14 +17,9 @@ class CommentRepository
     extends JsonRepository
     implements Contract
 {
-
-    /** @var PostWrapper */
-    private $postWrapper;
-
-    public function __construct(Client $client, PostWrapper $postWrapper)
+    public function __construct(Client $client)
     {
         parent::__construct($client);
-        $this->postWrapper = $postWrapper;
     }
 
     public function byPost(Post $post): Collection

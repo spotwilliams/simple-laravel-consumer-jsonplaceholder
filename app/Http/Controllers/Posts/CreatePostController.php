@@ -14,15 +14,15 @@ class CreatePostController extends Controller
     public function __construct(PostRepository $postRepository)
     {
         $this->postRepository = $postRepository;
+        $this->middleware('auth');
     }
 
     public function __invoke(Request $request)
     {
-        /** @var  $post */
-        $post = $this->postRepository->create($request->all());
+        $this->postRepository->create($request->all());
 
         session()->flash('success', 'Post created successfully');
 
-        return view('posts.view', compact('post'));
+        return redirect()->route('posts.list');
     }
 }

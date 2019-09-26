@@ -1,10 +1,16 @@
 @extends('layouts.posts')
 
 @section('content')
+
     <div class="row">
+        @include('posts.form')
+    </div>
+
+    <div class="row">
+
         @foreach($posts as $post)
 
-            <div class="post col-md-4">
+            <div class="post col-md-6">
                 <div class="post-thumbnail">
                     <img src="/img/blog-{{rand(1, 7)}}.jpg" alt="..." class="img-fluid">
                 </div>
